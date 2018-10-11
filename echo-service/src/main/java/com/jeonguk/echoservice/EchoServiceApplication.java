@@ -8,10 +8,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.converter.json.GsonHttpMessageConverter;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -38,10 +35,21 @@ public class EchoServiceApplication {
 	class EchoController {
 
 		@GetMapping("/one")
-		public List<Post> getPosts(@RequestHeader("TEST-HEADER") String header) {
-			log.info("TEST-HEADER {}", header);
+		public List<Post> getPosts() {
 			return getPostList();
 			//throw new RuntimeException(header);
+		}
+
+		@PostMapping("/save")
+		public PostDTO.ResPost savePost(@RequestBody PostDTO.ReqPost req) {
+			log.info("save post req {}", req);
+			PostDTO.ResPost post = new PostDTO.ResPost();
+			post.setId(1L);
+			post.setContent("post save content");
+			post.setTitle("post save title");
+			post.setUserName("post save jeonguk");
+			post.setCreatedAt("20181011225411");
+			return post;
 		}
 
 		private List<Post> getPostList() {
